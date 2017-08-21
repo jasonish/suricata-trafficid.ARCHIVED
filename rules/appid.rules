@@ -1,0 +1,29 @@
+# MIT License
+# 
+# Copyright (c) 2017 Open Information Security Foundation
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/snapchat"; tls_sni; content:"feelinsonice.appspot.com"; flow:to_server,established; flowbits:set,service/snapchat; sid:300000000; rev:1;)
+alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/snapchat"; tls_sni; content:"feelinsonice-hrd.appspot.com"; flow:to_server,established; flowbits:set,service/snapchat; sid:300000001; rev:1;)
+alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/snapchat"; tls_sni; content:"snapchat.com"; flow:to_server,established; flowbits:set,service/snapchat; sid:300000002; rev:1;)
+alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/skype"; tls_sni; content:"apps.skype.com"; flow:to_server,established; flowbits:set,service/skype; sid:300000003; rev:1;)
+alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/skype"; tls_sni; content:"ui.skype.com"; flow:to_server,established; flowbits:set,service/skype; sid:300000004; rev:1;)
+alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/yum"; content:"yum"; http_user_agent; flow:to_server,established; flobits:set,app/yum; sid:300000005; rev:1;)
+alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/dnf"; content:"dnf"; http_user_agent; flow:to_server,established; flobits:set,app/dnf; sid:300000006; rev:1;)
