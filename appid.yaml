@@ -1,0 +1,18 @@
+tls-sni-patterns:
+  - flowbit: service/snapchat
+    patterns:
+      - feelinsonice.appspot.com
+      - feelinsonice-hrd.appspot.com
+      - snapchat.com
+  - flowbit: service/skype
+    patterns:
+      - apps.skype.com
+      - ui.skype.com
+
+http-user-agent-patterns:
+  - flowbit: app/yum
+    patterns:
+      - yum
+  - flowbit: app/dnf
+    patterns:
+      - dnf
