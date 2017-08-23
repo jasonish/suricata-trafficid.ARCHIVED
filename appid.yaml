@@ -8,6 +8,19 @@ tls-sni-patterns:
     patterns:
       - apps.skype.com
       - ui.skype.com
+  - flowbit: service/whisper
+    patterns:
+      - textsecure-service-ca.whispersystems.org
+  - flowbit: service/skype
+    patterns:
+      - skype.com
+  - flowbit: service/google
+    patterns:
+      - googleapis.com
+      - googlevideo.com
+  - flowbit: service/twitter
+    patterns:
+      - api.twitter.com
 
 http-user-agent-patterns:
   - flowbit: app/yum
