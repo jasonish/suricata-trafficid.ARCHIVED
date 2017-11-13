@@ -2,22 +2,27 @@
 tls-sni-patterns:
 
   # Bing.
-  - flowbit: service/bing
+  - flowbit:
+      - service/name/bing
     patterns:
       - bing.com
 
   # Facebook
-  - flowbit: service/facebook
+  - flowbit:
+      - service/name/facebook
+      - service/label/social_network
     patterns:
       - facebook.com
       - fbcdn.net
       - fbsbx.com
-  - flowbit: service/facebook/messenger
+  - flowbit:
+      - service/name/facebook-messenger
     patterns:
       - edge-chat.facebook.com
 
   # Google.
-  - flowbit: service/google
+  - flowbit:
+      - service/name/google
     patterns:
       - google.com
       - googleapis.com
@@ -26,44 +31,71 @@ tls-sni-patterns:
       - google.cz
       - gstatic.com
 
+  # Google Video (youtube, etc.)
+  - flowbit:
+      - service/name/google
+      - service/label/video
+    patterns:
+      - googlevideo.com
+
   # IRCCloud
-  - flowbit: service/irccloud
+  - flowbit:
+      - service/name/irccloud
     patterns:
       - irccloud.com
 
   # Lastpass.
-  - flowbit: service/lastpass
+  - flowbit:
+      - service/name/lastpass
     patterns:
       - lastpass.com
 
   # Signal chat.
-  - flowbit: service/whisper
+  - flowbit:
+      - service/name/whisper
     patterns:
       - whispersystems.org
 
+  # Netflix
+  - flowbit:
+      - service/name/netflix
+      - service/label/video
+    patterns:
+      - netflix.com
+      - nflxso.net
+      - nflxext.com
+      - nflxvideo.net
+      
   # Skype
-  - flowbit: service/skype
+  - flowbit:
+      - service/name/skype
     patterns:
       - skype.com
       - skypeassets.com
 
   # Snapchat.
-  - flowbit: service/snapchat
+  - flowbit:
+      - service/name/snapchat
     patterns:
       - feelinsonice.appspot.com
       - feelinsonice-hrd.appspot.com
       - snapchat.com
 
   # Twitter
-  - flowbit: service/twitter
+  - flowbit:
+      - service/name/twitter
+      - service/label/social_network
     patterns:
       - twitter.com
       - twimg.com
 
-  # XMarks
-  - flowbit: service/xmarks
+  # Whatsapp
+  - flowbit:
+      - service/name/whatsapp
+      - service/label/im
+      - service/label/file_transfer
     patterns:
-      - xmarks.com
+      - whatsapp.com
 
 # HTTP user agent patterns.
 http-user-agent-patterns:
@@ -73,3 +105,27 @@ http-user-agent-patterns:
   - flowbit: app/dnf
     patterns:
       - dnf
+
+# Map short names to a full name.
+names:
+  bing: Bing
+  facebook: Facebook
+  facebook-messenger: Facebook Messenger
+  google: Google Search and Other Services
+  irccloud: IRCCloud
+  lastpass: Lastpass
+  netflix: Netflix
+  skype: Skype
+  snapchat: Snapchat
+  twitter: Twitter
+  whatsapp: WhatsApp Messenger
+  whisper: Signal messaging application
+  xmarks: XMarks
+
+# Map labels to a description.
+labels:
+  social_network: Social Network
+  chat: Chat
+  file_transfer: File Transfer
+  im: Instant Messaging
+  video: Video Stream Service
