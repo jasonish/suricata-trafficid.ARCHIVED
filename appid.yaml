@@ -3,26 +3,27 @@ tls-sni-patterns:
 
   # Bing.
   - flowbit:
-      - service/name/bing
+      - traffic/id/bing
     patterns:
       - bing.com
 
   # Facebook
   - flowbit:
-      - service/name/facebook
-      - service/label/social_network
+      - traffic/id/facebook
+      - traffic/label/social-network
     patterns:
       - facebook.com
       - fbcdn.net
       - fbsbx.com
   - flowbit:
-      - service/name/facebook-messenger
+      - traffic/id/facebook-messenger
+      - traffic/label/im
     patterns:
       - edge-chat.facebook.com
 
   # Google.
   - flowbit:
-      - service/name/google
+      - traffic/id/google
     patterns:
       - google.com
       - googleapis.com
@@ -33,33 +34,33 @@ tls-sni-patterns:
 
   # Google Video (youtube, etc.)
   - flowbit:
-      - service/name/google
-      - service/label/video
+      - traffic/id/google
+      - traffic/label/video
     patterns:
       - googlevideo.com
 
   # IRCCloud
   - flowbit:
-      - service/name/irccloud
+      - traffic/id/irccloud
     patterns:
       - irccloud.com
 
   # Lastpass.
   - flowbit:
-      - service/name/lastpass
+      - traffic/id/lastpass
     patterns:
       - lastpass.com
 
   # Signal chat.
   - flowbit:
-      - service/name/whisper
+      - traffic/id/whisper
     patterns:
       - whispersystems.org
 
   # Netflix
   - flowbit:
-      - service/name/netflix
-      - service/label/video
+      - traffic/id/netflix
+      - traffic/label/video
     patterns:
       - netflix.com
       - nflxso.net
@@ -68,14 +69,14 @@ tls-sni-patterns:
       
   # Skype
   - flowbit:
-      - service/name/skype
+      - traffic/id/skype
     patterns:
       - skype.com
       - skypeassets.com
 
   # Snapchat.
   - flowbit:
-      - service/name/snapchat
+      - traffic/id/snapchat
     patterns:
       - feelinsonice.appspot.com
       - feelinsonice-hrd.appspot.com
@@ -83,17 +84,17 @@ tls-sni-patterns:
 
   # Twitter
   - flowbit:
-      - service/name/twitter
-      - service/label/social_network
+      - traffic/id/twitter
+      - traffic/label/social-network
     patterns:
       - twitter.com
       - twimg.com
 
   # Whatsapp
   - flowbit:
-      - service/name/whatsapp
-      - service/label/im
-      - service/label/file_transfer
+      - traffic/id/whatsapp
+      - traffic/label/im
+      - traffic/label/file-transfer
     patterns:
       - whatsapp.com
 
@@ -106,8 +107,8 @@ http-user-agent-patterns:
     patterns:
       - dnf
 
-# Map short names to a full name.
-names:
+# Map short ID names to full names (or description)
+id-map:
   bing: Bing
   facebook: Facebook
   facebook-messenger: Facebook Messenger
@@ -124,8 +125,8 @@ names:
 
 # Map labels to a description.
 labels:
-  social_network: Social Network
+  social-network: Social Network
   chat: Chat
-  file_transfer: File Transfer
+  file-transfer: File Transfer
   im: Instant Messaging
   video: Video Stream Service

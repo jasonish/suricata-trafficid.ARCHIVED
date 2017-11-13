@@ -30,10 +30,13 @@ import argparse
 
 import yaml
 
+ID_PREFIX = "traffic/id"
+LABEL_PREFIX = "traffic/label"
+
 SID = 300000000
 
 LABELS = {}
-NAMES = {}
+IDMAP = {}
 
 def print_tls_sni(output, config):
     global SID
@@ -51,14 +54,14 @@ def print_tls_sni(output, config):
 
         for flowbit in flowbits:
 
-            if flowbit.startswith("service/label"):
+            if flowbit.startswith(LABEL_PREFIX):
                 tag = flowbit.split("/")[-1]
                 if not tag in LABELS:
                     print("error: unknown tag: %s" % (tag), file=sys.stderr)
-            elif flowbit.startswith("service/name"):
+            elif flowbit.startswith(ID_PREFIX):
                 name = flowbit.split("/")[-1]
-                if not name in NAMES:
-                    print("error: unknown name: %s" % (name), file=sys.stderr)
+                if not name in IDMAP:
+                    print("error: unknown id: %s" % (name), file=sys.stderr)
             else:
                 print(
                     "warning: unknown flowbit prefix: %s" % (flowbit),
@@ -108,8 +111,8 @@ def generate_rules(args):
                     config = yaml.load(fileobj)
                     if "labels" in config:
                         LABELS.update(config["labels"])
-                    if "names" in config:
-                        NAMES.update(config["names"])
+                    if "id-map" in config:
+                        IDMAP.update(config["id-map"])
                     for key in config:
                         if key == "tls-sni-patterns":
                             print_tls_sni(output, config[key])
@@ -144,11 +147,11 @@ def main():
                 if key == "tls-sni-patterns":
                     for label in config[key]:
                         for flowbit in label["flowbit"]:
-                            if flowbit.startswith("service/label"):
+                            if flowbit.startswith(LABEL_PREFIX):
                                 labels.add(flowbit)
         for label in labels:
             print(label)
-    elif args.command == "list-names":
+    elif args.command == "list-ids":
         names = set()
         configs = load_configs()
         for config in configs:
@@ -156,7 +159,7 @@ def main():
                 if key == "tls-sni-patterns":
                     for label in config[key]:
                         for flowbit in label["flowbit"]:
-                            if flowbit.startswith("service/name"):
+                            if flowbit.startswith(ID_PREFIX):
                                 names.add(flowbit)
         for name in names:
             print(name)
