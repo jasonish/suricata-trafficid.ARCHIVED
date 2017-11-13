@@ -1,5 +1,5 @@
-all: rules/appid.rules
+all: rules/traffic-id.rules
 
-rules/appid.rules: appid.yaml appid.py
+rules/traffic-id.rules: traffic-id.yaml traffic-id.py
 	mkdir -p rules
-	./appid.py -o $@ gen
+	./traffic-id.py -o $@ gen
