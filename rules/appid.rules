@@ -30,5 +30,5 @@ alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/skype"; tls
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/google"; tls_sni; content:"googleapis.com"; flow:to_server,established; flowbits:set,service/google; sid:300000007; rev:1;)
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/google"; tls_sni; content:"googlevideo.com"; flow:to_server,established; flowbits:set,service/google; sid:300000008; rev:1;)
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for service/twitter"; tls_sni; content:"api.twitter.com"; flow:to_server,established; flowbits:set,service/twitter; sid:300000009; rev:1;)
-alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/yum"; content:"yum"; http_user_agent; flow:to_server,established; flobits:set,app/yum; sid:300000010; rev:1;)
-alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/dnf"; content:"dnf"; http_user_agent; flow:to_server,established; flobits:set,app/dnf; sid:300000011; rev:1;)
+alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/yum"; content:"yum"; http_user_agent; flow:to_server,established; flowbits:set,app/yum; sid:300000010; rev:1;)
+alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/dnf"; content:"dnf"; http_user_agent; flow:to_server,established; flowbits:set,app/dnf; sid:300000011; rev:1;)
