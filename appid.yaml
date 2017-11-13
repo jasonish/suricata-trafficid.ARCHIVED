@@ -1,27 +1,71 @@
+# TLS SNI patterns.
 tls-sni-patterns:
+
+  # Bing.
+  - flowbit: service/bing
+    patterns:
+      - bing.com
+
+  # Facebook
+  - flowbit: service/facebook
+    patterns:
+      - facebook.com
+      - fbcdn.net
+      - fbsbx.com
+  - flowbit: service/facebook/messenger
+    patterns:
+      - edge-chat.facebook.com
+
+  # Google.
+  - flowbit: service/google
+    patterns:
+      - google.com
+      - googleapis.com
+      - googlevideo.com
+      - googleusercontent.com
+      - google.cz
+      - gstatic.com
+
+  # IRCCloud
+  - flowbit: service/irccloud
+    patterns:
+      - irccloud.com
+
+  # Lastpass.
+  - flowbit: service/lastpass
+    patterns:
+      - lastpass.com
+
+  # Signal chat.
+  - flowbit: service/whisper
+    patterns:
+      - whispersystems.org
+
+  # Skype
+  - flowbit: service/skype
+    patterns:
+      - skype.com
+      - skypeassets.com
+
+  # Snapchat.
   - flowbit: service/snapchat
     patterns:
       - feelinsonice.appspot.com
       - feelinsonice-hrd.appspot.com
       - snapchat.com
-  - flowbit: service/skype
-    patterns:
-      - apps.skype.com
-      - ui.skype.com
-  - flowbit: service/whisper
-    patterns:
-      - textsecure-service-ca.whispersystems.org
-  - flowbit: service/skype
-    patterns:
-      - skype.com
-  - flowbit: service/google
-    patterns:
-      - googleapis.com
-      - googlevideo.com
+
+  # Twitter
   - flowbit: service/twitter
     patterns:
-      - api.twitter.com
+      - twitter.com
+      - twimg.com
 
+  # XMarks
+  - flowbit: service/xmarks
+    patterns:
+      - xmarks.com
+
+# HTTP user agent patterns.
 http-user-agent-patterns:
   - flowbit: app/yum
     patterns:
