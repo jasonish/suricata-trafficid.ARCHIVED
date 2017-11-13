@@ -49,7 +49,7 @@ def print_tls_sni(config):
 def print_http_user_agent(config):
     global SID
 
-    template = """alert http any any -> any any (msg:"%(msg)s"; content:"%(content)s"; http_user_agent; flow:to_server,established; flobits:set,%(flowbit)s; sid:%(sid)d; rev:1;)"""
+    template = """alert http any any -> any any (msg:"%(msg)s"; content:"%(content)s"; http_user_agent; flow:to_server,established; flowbits:set,%(flowbit)s; sid:%(sid)d; rev:1;)"""
 
     for app in config:
         for pattern in app["patterns"]:
