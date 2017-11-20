@@ -60,5 +60,5 @@ alert tls any any -> any any (msg:"APPID TLS SNI Pattern for traffic/label/socia
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for traffic/id/whatsapp"; tls_sni; content:"whatsapp.com"; flow:to_server,established; flowbits:set,traffic/id/whatsapp; sid:300000037; rev:1;)
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for traffic/label/im"; tls_sni; content:"whatsapp.com"; flow:to_server,established; flowbits:set,traffic/label/im; sid:300000038; rev:1;)
 alert tls any any -> any any (msg:"APPID TLS SNI Pattern for traffic/label/file-transfer"; tls_sni; content:"whatsapp.com"; flow:to_server,established; flowbits:set,traffic/label/file-transfer; sid:300000039; rev:1;)
-alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/yum"; content:"yum"; http_user_agent; flow:to_server,established; flowbits:set,app/yum; sid:300000040; rev:1;)
-alert http any any -> any any (msg:"APPID HTTP USER AGENT for app/dnf"; content:"dnf"; http_user_agent; flow:to_server,established; flowbits:set,app/dnf; sid:300000041; rev:1;)
+alert http any any -> any any (msg:"SURICATA TRAFFIC-ID: Debian APT-GET"; content:"debian.org"; http_host; content:"Debian APT"; http_user_agent; flowbits:set,traffic/id/debian-apt; flowbits:set,traffic/label/software-update; sid:300000040;)
+alert http any any -> any any (msg:"SURICATA TRAFFIC-ID: Ubuntu APT-GET"; content:"ubuntu.com"; http_host; content:"Debian APT"; http_user_agent; flowbits:set,traffic/label/software-update; flowbits:set,traffic/id/ubuntu-apt; sid:300000041;)
