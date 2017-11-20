@@ -76,19 +76,37 @@ def print_tls_sni(output, config):
                 }, file=output)
                 SID += 1
 
-def print_http_user_agent(output, config):
+def print_rules(output, config):
     global SID
 
-    template = """alert http any any -> any any (msg:"%(msg)s"; content:"%(content)s"; http_user_agent; flow:to_server,established; flowbits:set,%(flowbit)s; sid:%(sid)d; rev:1;)"""
+    for rule in config:
+        proto = rule["proto"]
 
-    for app in config:
-        for pattern in app["patterns"]:
-            print(template % {
-                "msg": "APPID HTTP USER AGENT for %s" % (app["flowbit"]),
-                "content": pattern,
-                "flowbit": app["flowbit"],
-                "sid": SID,
-            }, file=output)
+        options = []
+
+        if "msg" in rule:
+            options += ["msg:\"SURICATA TRAFFIC-ID: %s\"" % (rule["msg"])]
+
+        if "http_host" in rule:
+            options += [
+                "content:\"%s\"" % (rule["http_host"]),
+                "http_host",
+            ]
+
+        if "http_user_agent" in rule:
+            options += [
+                "content:\"%s\"" % (rule["http_user_agent"]),
+                "http_user_agent",
+            ]
+
+        for flowbit in rule["flowbit"]:
+            options.append("flowbits:set,%s" % (flowbit))
+
+        options += ["sid:%d" % (SID)]
+
+        print("alert %s any any -> any any (%s;)" % (
+            proto, "; ".join(options)), file=output)
+
         SID += 1
 
 def generate_rules(args):
@@ -116,8 +134,8 @@ def generate_rules(args):
                     for key in config:
                         if key == "tls-sni-patterns":
                             print_tls_sni(output, config[key])
-                        elif key == "http-user-agent-patterns":
-                            print_http_user_agent(output, config[key])
+                        elif key == "rules":
+                            print_rules(output, config[key])
 
 def load_configs():
     configs = []

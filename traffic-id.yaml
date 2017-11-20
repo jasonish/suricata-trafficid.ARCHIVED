@@ -98,14 +98,27 @@ tls-sni-patterns:
     patterns:
       - whatsapp.com
 
-# HTTP user agent patterns.
-http-user-agent-patterns:
-  - flowbit: app/yum
-    patterns:
-      - yum
-  - flowbit: app/dnf
-    patterns:
-      - dnf
+# Traffic identification where more than simple lists of a specific
+# pattern are required.
+rules:
+
+  # Debian APT-GET
+  - msg: "Debian APT-GET"
+    flowbit:
+      - traffic/id/debian-apt
+      - traffic/label/software-update
+    proto: http
+    http_host: debian.org
+    http_user_agent: Debian APT
+
+  # Ubuntu APT-GET
+  - msg: "Ubuntu APT-GET"
+    flowbit:
+      - traffic/label/software-update
+      - traffic/id/ubuntu-apt
+    proto: http
+    http_host: ubuntu.com
+    http_user_agent: Debian APT
 
 # Map short ID names to full names (or description)
 id-map:
