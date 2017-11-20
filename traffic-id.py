@@ -38,43 +38,36 @@ SID = 300000000
 LABELS = {}
 IDMAP = {}
 
+def print_err(msg):
+    print(msg, file=sys.stderr)
+
 def print_tls_sni(output, config):
     global SID
 
-    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; flow:to_server,established; flowbits:set,%(flowbit)s; sid:%(sid)d; rev:1;)"""
+    for tls in config:
 
-    for app in config:
+        msg = "SURICATA TRAFFIC-ID: %s" % (tls["flowbit"][0])
 
         flowbits = []
-
-        if isinstance(app["flowbit"], list):
-            flowbits = app["flowbit"]
-        else:
-            flowbits.append(app["flowbit"])
-
-        for flowbit in flowbits:
-
+        for flowbit in tls["flowbit"]:
             if flowbit.startswith(LABEL_PREFIX):
-                tag = flowbit.split("/")[-1]
-                if not tag in LABELS:
-                    print("error: unknown tag: %s" % (tag), file=sys.stderr)
+                pass
             elif flowbit.startswith(ID_PREFIX):
-                name = flowbit.split("/")[-1]
-                if not name in IDMAP:
-                    print("error: unknown id: %s" % (name), file=sys.stderr)
+                pass
             else:
-                print(
-                    "warning: unknown flowbit prefix: %s" % (flowbit),
-                    file=sys.stderr)
+                print_err("warning: unknown flowbit prefix for %s" % (flowbit))
+            flowbits.append("flowbits:set,%s" % (flowbit))
 
-            for pattern in app["patterns"]:
-                print(template % {
-                    "msg": "APPID TLS SNI Pattern for %s" % (flowbit),
-                    "content": pattern,
-                    "flowbit": flowbit,
-                    "sid": SID,
-                }, file=output)
-                SID += 1
+        for pattern in tls["patterns"]:
+            template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
+            print(template % {
+                "msg": msg,
+                "content": pattern,
+                "flowbits": "; ".join(flowbits),
+                "sid": SID,
+            }, file=output)
+
+            SID += 1
 
 def print_rules(output, config):
     global SID
@@ -98,6 +91,8 @@ def print_rules(output, config):
                 "content:\"%s\"" % (rule["http_user_agent"]),
                 "http_user_agent",
             ]
+
+        options.append("flow:to_server,established")
 
         for flowbit in rule["flowbit"]:
             options.append("flowbits:set,%s" % (flowbit))
