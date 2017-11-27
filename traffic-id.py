@@ -49,7 +49,7 @@ def as_list(_id):
 def print_tls_sni(output, config):
     global SID
 
-    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
+    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; isdataat:!1,relative; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
 
     for tls in config:
 
