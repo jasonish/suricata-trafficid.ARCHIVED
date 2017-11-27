@@ -41,25 +41,33 @@ IDMAP = {}
 def print_err(msg):
     print(msg, file=sys.stderr)
 
+def as_list(_id):
+    if isinstance(_id, type([])):
+        return _id
+    return [_id]
+
 def print_tls_sni(output, config):
     global SID
 
+    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
+
     for tls in config:
 
-        msg = "SURICATA TRAFFIC-ID: %s" % (tls["flowbit"][0])
+        if not "id" in tls:
+            raise Exception("Missing id: %s" % (str(tls)))
+
+        msg = "SURICATA TRAFFIC-ID: %s" % (",".join(as_list(tls["id"])))
 
         flowbits = []
-        for flowbit in tls["flowbit"]:
-            if flowbit.startswith(LABEL_PREFIX):
-                pass
-            elif flowbit.startswith(ID_PREFIX):
-                pass
-            else:
-                print_err("warning: unknown flowbit prefix for %s" % (flowbit))
-            flowbits.append("flowbits:set,%s" % (flowbit))
+
+        for _id in as_list(tls["id"]):
+            flowbits.append("flowbits: set,%s/%s" % (ID_PREFIX, _id))
+
+        if "labels" in tls:
+            for label in tls["labels"]:
+                flowbits.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
         for pattern in tls["patterns"]:
-            template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
             print(template % {
                 "msg": msg,
                 "content": pattern,
@@ -79,6 +87,8 @@ def print_rules(output, config):
 
         if "msg" in rule:
             options += ["msg:\"SURICATA TRAFFIC-ID: %s\"" % (rule["msg"])]
+        else:
+            options += ["msg:\"SURICATA TRAFFIC-ID: %s\"" % as_list(rule["id"])]
 
         if "http_host" in rule:
             options += [
@@ -94,8 +104,11 @@ def print_rules(output, config):
 
         options.append("flow:to_server,established")
 
-        for flowbit in rule["flowbit"]:
-            options.append("flowbits:set,%s" % (flowbit))
+        for _id in as_list(rule["id"]):
+            options.append("flowbits:set,%s/%s" % (ID_PREFIX, _id))
+
+        for label in rule["labels"]:
+            options.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
         options += ["sid:%d" % (SID)]
 

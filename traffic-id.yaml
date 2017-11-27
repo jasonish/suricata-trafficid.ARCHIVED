@@ -2,28 +2,32 @@
 tls-sni-patterns:
 
   # Bing.
-  - flowbit:
-      - traffic/id/bing
+  - id: bing
+    labels:
+      - search
     patterns:
       - bing.com
 
-  # Facebook
-  - flowbit:
-      - traffic/id/facebook
-      - traffic/label/social-network
+  # Facebook.
+  - id: facebook
+    labels:
+      - social-network
     patterns:
       - facebook.com
       - fbcdn.net
       - fbsbx.com
-  - flowbit:
-      - traffic/id/facebook-messenger
-      - traffic/label/im
+
+  # Facebook Messenger.
+  - id: facebook-messenger
+    labels:
+      - im
     patterns:
       - edge-chat.facebook.com
 
   # Google.
-  - flowbit:
-      - traffic/id/google
+  - id: google
+    labels:
+      - search
     patterns:
       - google.com
       - googleapis.com
@@ -33,34 +37,36 @@ tls-sni-patterns:
       - gstatic.com
 
   # Google Video (youtube, etc.)
-  - flowbit:
-      - traffic/id/google
-      - traffic/label/video
+  - id: google-video
+    labels:
+      - video
     patterns:
       - googlevideo.com
 
   # IRCCloud
-  - flowbit:
-      - traffic/id/irccloud
+  - id: irccloud
+    label: im
     patterns:
       - irccloud.com
 
   # Lastpass.
-  - flowbit:
-      - traffic/id/lastpass
+  - id: lastpass
+    labels:
+      password-management
     patterns:
       - lastpass.com
 
   # Signal chat.
-  - flowbit:
-      - traffic/id/whisper
+  - id: whisper
+    labels:
+      - im
     patterns:
       - whispersystems.org
 
   # Netflix
-  - flowbit:
-      - traffic/id/netflix
-      - traffic/label/video
+  - id: netflix
+    labels:
+      - video
     patterns:
       - netflix.com
       - nflxso.net
@@ -68,33 +74,35 @@ tls-sni-patterns:
       - nflxvideo.net
       
   # Skype
-  - flowbit:
-      - traffic/id/skype
+  - id: skype
+    labels:
+      - im
     patterns:
       - skype.com
       - skypeassets.com
 
   # Snapchat.
-  - flowbit:
-      - traffic/id/snapchat
+  - id: snapchat
+    labels:
+      - im
     patterns:
       - feelinsonice.appspot.com
       - feelinsonice-hrd.appspot.com
       - snapchat.com
 
   # Twitter
-  - flowbit:
-      - traffic/id/twitter
-      - traffic/label/social-network
+  - id: twitter
+    labels:
+      - social-network
     patterns:
       - twitter.com
       - twimg.com
 
   # Whatsapp
-  - flowbit:
-      - traffic/id/whatsapp
-      - traffic/label/im
-      - traffic/label/file-transfer
+  - id: whatsapp
+    labels:
+      - im
+      - file-transfer
     patterns:
       - whatsapp.com
 
@@ -103,19 +111,19 @@ tls-sni-patterns:
 rules:
 
   # Debian APT-GET
-  - msg: "Debian APT-GET"
-    flowbit:
-      - traffic/id/debian-apt
-      - traffic/label/software-update
+  - id: debian-apt
+    msg: "Debian APT-GET"
+    labels:
+      - software-update
     proto: http
     http_host: debian.org
     http_user_agent: Debian APT
 
   # Ubuntu APT-GET
-  - msg: "Ubuntu APT-GET"
-    flowbit:
-      - traffic/label/software-update
-      - traffic/id/ubuntu-apt
+  - id: ubuntu-apt
+    msg: "Ubuntu APT-GET"
+    labels:
+      - software-update
     proto: http
     http_host: ubuntu.com
     http_user_agent: Debian APT
