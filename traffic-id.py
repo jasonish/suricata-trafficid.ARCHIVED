@@ -46,10 +46,10 @@ def as_list(_id):
         return _id
     return [_id]
 
-def print_tls_sni(output, config):
+def print_tls_sni(args, output, config):
     global SID
 
-    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; isdataat:!1,relative; flow:to_server,established; %(flowbits)s; sid:%(sid)d; rev:1;)"""
+    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; isdataat:!1,relative; flow:to_server,established; %(flowbits)s; %(noalert)ssid:%(sid)d; rev:1;)"""
 
     for tls in config:
 
@@ -67,17 +67,23 @@ def print_tls_sni(output, config):
             for label in tls["labels"]:
                 flowbits.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
+        if not args.disable_noalert:
+            noalert = "noalert; "
+        else:
+            noalert = ""
+
         for pattern in tls["patterns"]:
             print(template % {
                 "msg": msg,
                 "content": pattern,
                 "flowbits": "; ".join(flowbits),
                 "sid": SID,
+                "noalert": noalert,
             }, file=output)
 
             SID += 1
 
-def print_rules(output, config):
+def print_rules(args, output, config):
     global SID
 
     for rule in config:
@@ -110,6 +116,9 @@ def print_rules(output, config):
         for label in rule["labels"]:
             options.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
+        if not args.disable_noalert:
+            options.append("noalert")
+
         options += ["sid:%d" % (SID)]
 
         print("alert %s any any -> any any (%s;)" % (
@@ -141,9 +150,9 @@ def generate_rules(args):
                         IDMAP.update(config["id-map"])
                     for key in config:
                         if key == "tls-sni-patterns":
-                            print_tls_sni(output, config[key])
+                            print_tls_sni(args, output, config[key])
                         elif key == "rules":
-                            print_rules(output, config[key])
+                            print_rules(args, output, config[key])
 
 def load_configs():
     configs = []
@@ -159,6 +168,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", metavar="<filename>",
                         help="Output filename for rules")
+    parser.add_argument("--disable-noalert", action="store_true", default=False)
     parser.add_argument("command", metavar="<command>",
                         help="Command to run")
     args = parser.parse_args()
