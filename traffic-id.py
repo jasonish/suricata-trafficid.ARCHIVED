@@ -49,7 +49,7 @@ def as_list(_id):
 def print_tls_sni(args, output, config):
     global SID
 
-    template = """alert tls any any -> any any (msg:"%(msg)s"; tls_sni; content:"%(content)s"; isdataat:!1,relative; flow:to_server,established; %(flowbits)s; %(noalert)ssid:%(sid)d; rev:1;)"""
+    template = """alert tls any any -> any %(dport)s (msg:"%(msg)s"; tls_sni; content:"%(content)s"; isdataat:!1,relative; flow:to_server,established; %(flowbits)s; %(noalert)ssid:%(sid)d; rev:1;)"""
 
     for tls in config:
 
@@ -72,6 +72,11 @@ def print_tls_sni(args, output, config):
         else:
             noalert = ""
 
+        if "ports" in tls:
+            ports = "[%s]" % (",".join([str(p) for p in tls["ports"]]))
+        else:
+            ports = "any"
+
         for pattern in tls["patterns"]:
             print(template % {
                 "msg": msg,
@@ -79,6 +84,7 @@ def print_tls_sni(args, output, config):
                 "flowbits": "; ".join(flowbits),
                 "sid": SID,
                 "noalert": noalert,
+                "dport": ports,
             }, file=output)
 
             SID += 1

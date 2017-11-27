@@ -24,6 +24,16 @@ tls-sni-patterns:
     patterns:
       - edge-chat.facebook.com
 
+  # Gmail POP
+  - id: gmail
+    labels:
+      - mail
+      - pop3
+    patterns:
+      - pop.gmail.com
+    ports:
+      - 993
+
   # Google.
   - id: google
     labels:
