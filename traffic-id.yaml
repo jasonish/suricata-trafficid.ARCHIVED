@@ -62,7 +62,7 @@ tls-sni-patterns:
   # Lastpass.
   - id: lastpass
     labels:
-      password-management
+      - password-management
     patterns:
       - lastpass.com
 
