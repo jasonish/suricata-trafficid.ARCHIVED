@@ -64,7 +64,7 @@ def print_tls_sni(args, output, config):
             flowbits.append("flowbits: set,%s/%s" % (ID_PREFIX, _id))
 
         if "labels" in tls:
-            for label in tls["labels"]:
+            for label in as_list(tls["labels"]):
                 flowbits.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
         if not args.disable_noalert:
@@ -119,7 +119,7 @@ def print_rules(args, output, config):
         for _id in as_list(rule["id"]):
             options.append("flowbits:set,%s/%s" % (ID_PREFIX, _id))
 
-        for label in rule["labels"]:
+        for label in as_list(rule["labels"]):
             options.append("flowbits:set,%s/%s" % (LABEL_PREFIX, label))
 
         if not args.disable_noalert:
