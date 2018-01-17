@@ -14,7 +14,9 @@ tls-sni-patterns:
       - social-network
     patterns:
       - facebook.com
+      - facebook.net
       - fbcdn.net
+      - fbcdn.com
       - fbsbx.com
 
   # Facebook Messenger.
@@ -82,7 +84,7 @@ tls-sni-patterns:
       - nflxso.net
       - nflxext.com
       - nflxvideo.net
-      
+
   # Skype
   - id: skype
     labels:
@@ -115,6 +117,14 @@ tls-sni-patterns:
       - file-transfer
     patterns:
       - whatsapp.com
+
+  # Instagram
+  - id: instagram
+    labels:
+      - social-network
+    patterns:
+      - instagram.com
+      - cdninstagram.com
 
 # Traffic identification where more than simple lists of a specific
 # pattern are required.
@@ -153,6 +163,7 @@ id-map:
   whatsapp: WhatsApp Messenger
   whisper: Signal messaging application
   xmarks: XMarks
+  instagram: Instagram
 
 # Map labels to a description.
 labels:
