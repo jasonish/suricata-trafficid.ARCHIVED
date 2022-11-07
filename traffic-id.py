@@ -149,7 +149,7 @@ def generate_rules(args):
             if filename.endswith(".yaml"):
                 path = os.path.join(dirpath, filename)
                 with open(path) as fileobj:
-                    config = yaml.load(fileobj)
+                    config = yaml.load(fileobj, Loader=yaml.Loader)
                     if "labels" in config:
                         LABELS.update(config["labels"])
                     if "id-map" in config:
