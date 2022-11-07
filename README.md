@@ -1,4 +1,3 @@
-Suricata Traffic ID
-===================
+# Archived
 
-Suricata rules for identifying and classifying traffic.
+Use https://github.com/OISF/suricata-trafficid.
