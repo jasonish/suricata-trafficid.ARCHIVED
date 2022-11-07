@@ -125,7 +125,7 @@ def print_rules(args, output, config):
         if not args.disable_noalert:
             options.append("noalert")
 
-        options += ["sid:%d" % (SID)]
+        options += ["sid:%d" % (SID), "rev:1"]
 
         print("alert %s any any -> any any (%s;)" % (
             proto, "; ".join(options)), file=output)
